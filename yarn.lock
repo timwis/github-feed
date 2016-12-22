@@ -140,10 +140,11 @@ balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
-barracks@^8.3.1:
-  version "8.3.2"
-  resolved "https://registry.yarnpkg.com/barracks/-/barracks-8.3.2.tgz#a6a87eb4bbf8b2c6e15a476bed5b49a767198a27"
+barracks@^9.0.0:
+  version "9.2.1"
+  resolved "https://registry.yarnpkg.com/barracks/-/barracks-9.2.1.tgz#f12ddb64f6656b36cda265135639d2f0ef043073"
   dependencies:
+    nanotick "^1.1.2"
     xtend "^4.0.1"
 
 base64-js@^1.0.2:
@@ -469,16 +470,14 @@ chokidar@^1.0.0, chokidar@^1.0.1:
     fsevents "^1.0.0"
 
 choo:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/choo/-/choo-3.3.0.tgz#5cb5b2d4bcb243e4090b7f53ef2e4148e908d9f1"
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/choo/-/choo-4.0.3.tgz#e099cfec9a761560b636a97fc44fdecc7fdb8829"
   dependencies:
-    barracks "^8.3.1"
+    barracks "^9.0.0"
     document-ready "~1.0.2"
     global "^4.3.0"
-    hash-match "^1.0.2"
     nanoraf "^2.1.1"
-    sheet-router "^3.1.0"
-    xhr "^2.2.0"
+    sheet-router "^4.0.1"
     xtend "^4.0.1"
     yo-yo "^1.2.2"
 
@@ -1048,10 +1047,6 @@ has@^1.0.0:
   dependencies:
     function-bind "^1.0.2"
 
-hash-match@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/hash-match/-/hash-match-1.0.2.tgz#73970d6c4c19d0e3e122f0396d5dd407f72a1266"
-
 hash.js@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.0.3.tgz#1332ff00156c0a0ffdd8236013d07b77a0451573"
@@ -1552,6 +1547,10 @@ nanoraf@^2.1.1:
   dependencies:
     global "^4.3.0"
 
+nanotick@^1.1.2:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/nanotick/-/nanotick-1.1.4.tgz#0e8a72309488448409462ab1256ab1fe2783ea17"
+
 node-pre-gyp@^0.6.29:
   version "0.6.32"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.32.tgz#fc452b376e7319b3d255f5f34853ef6fd8fe1fd5"
@@ -1744,10 +1743,6 @@ path-type@^1.0.0:
     graceful-fs "^4.1.2"
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
-
-pathname-match@^1.1.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/pathname-match/-/pathname-match-1.2.0.tgz#77cb8e3db1e41e4771c4942a9e4fecb610cc2d19"
 
 pbkdf2@^3.0.3:
   version "3.0.9"
@@ -2101,14 +2096,13 @@ shasum@^1.0.0:
     json-stable-stringify "~0.0.0"
     sha.js "~2.4.4"
 
-sheet-router@^3.1.0:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/sheet-router/-/sheet-router-3.1.1.tgz#82b240a1ea910643de6dc136e01cee38cde3b4b0"
+sheet-router@^4.0.1:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/sheet-router/-/sheet-router-4.1.4.tgz#f118927950de40316f6c30ec88927339e16a1263"
   dependencies:
     global "^4.3.0"
-    pathname-match "^1.1.2"
-    sliced "^1.0.1"
-    wayfarer "^6.1.5"
+    wayfarer "^6.2.1"
+    xtend "^4.0.1"
 
 shell-quote@^1.4.2, shell-quote@^1.4.3:
   version "1.6.1"
@@ -2128,10 +2122,6 @@ simple-html-index@^1.4.0:
   resolved "https://registry.yarnpkg.com/simple-html-index/-/simple-html-index-1.5.0.tgz#2c93eeaebac001d8a135fc0022bd4ade8f58996f"
   dependencies:
     from2-string "^1.1.0"
-
-sliced@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/sliced/-/sliced-1.0.1.tgz#0b3a662b5d04c3177b1926bea82b03f837a2ef41"
 
 sntp@1.x.x:
   version "1.0.9"
@@ -2478,7 +2468,7 @@ watchify@^3.3.1:
     through2 "^2.0.0"
     xtend "^4.0.0"
 
-wayfarer@^6.1.5:
+wayfarer@^6.2.1:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/wayfarer/-/wayfarer-6.3.0.tgz#47bf3cca0191d429b2819d46ef69145dd6178b85"
   dependencies:
@@ -2510,9 +2500,9 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-xhr@^2.2.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/xhr/-/xhr-2.3.1.tgz#9e09e45ef103e3efa2b4c650a01517ead4c0f92e"
+xhr:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/xhr/-/xhr-2.3.2.tgz#84bdc6c12ca60b15a77cbe82442894b8f587ae74"
   dependencies:
     global "~4.3.0"
     is-function "^1.0.1"

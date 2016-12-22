@@ -8,8 +8,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.model(require('./model'))
 
-app.router((route) => [
-  route('/', require('./view'))
+app.router([
+  ['/', require('./view')]
 ])
 
 const tree = app.start()

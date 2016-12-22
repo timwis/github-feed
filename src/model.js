@@ -1,4 +1,4 @@
-const http = require('choo/http')
+const xhr = require('xhr')
 const qs = require('query-string')
 const parallel = require('run-parallel')
 const Cookies = require('js-cookie')
@@ -11,13 +11,15 @@ const config = {
 
 module.exports = {
   state: {
-    token: ''
+    token: '',
+    user: {}
   },
   reducers: {
-    receiveToken: (token, state) => ({ token })
+    receiveToken: (token, state) => ({ token }),
+    receiveUser: (state, user) => ({ user })
   },
   effects: {
-    login: (data, state, send, done) => {
+    login: (state, data, send, done) => {
       const params = {
         client_id: config.GITHUB_CLIENT,
         redirect_url: window.location.href,
@@ -26,10 +28,10 @@ module.exports = {
       const url = config.GITHUB_AUTH_URL + '?' + qs.stringify(params)
       window.location.href = url
     },
-    fetchToken: (authCode, state, send, done) => {
+    fetchToken: (state, authCode, send, done) => {
       const authURL = `${config.GATEKEEPER_HOST}/authenticate/${authCode}`
 
-      http(authURL, { json: true }, (err, res, body) => {
+      xhr(authURL, { json: true }, (err, res, body) => {
         if (err || res.statusCode !== 200) return done(new Error('Failed to retrieve token'))
         window.history.pushState({}, null, '/') // remove code from URL
         parallel([
@@ -38,9 +40,16 @@ module.exports = {
         ], done)
       })
     },
-    persistToken: (token, state, send, done) => {
+    persistToken: (state, token, send, done) => {
       Cookies.set('token', token)
       done()
+    },
+    fetchUser: (state, data, send, done) => {
+      const user = new GitHub({ token: state.token }).getUser()
+      user.getProfile((err, result) => {
+        if (err) return done(new Error('Failed to fetch user profile'))
+        send('receiveUser', result, done)
+      })
     }
   },
   subscriptions: {

@@ -5,7 +5,7 @@ module.exports = (user, loginCb) => {
     <nav class="nav">
       <div class="nav-left">
         <a href="#" class="nav-item is-brand">
-          Serverless Data
+          GitHub Feed
         </a>
       </div>
 
