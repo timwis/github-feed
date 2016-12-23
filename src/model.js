@@ -1,7 +1,9 @@
 const xhr = require('xhr')
 const qs = require('query-string')
 const parallel = require('run-parallel')
+const series = require('run-series')
 const Cookies = require('js-cookie')
+const GitHub = require('github-api')
 
 const config = {
   GITHUB_AUTH_URL: 'https://github.com/login/oauth/authorize',
@@ -12,11 +14,13 @@ const config = {
 module.exports = {
   state: {
     token: '',
-    user: {}
+    user: {},
+    events: []
   },
   reducers: {
-    receiveToken: (token, state) => ({ token }),
-    receiveUser: (state, user) => ({ user })
+    receiveToken: (state, token) => ({ token }),
+    receiveUser: (state, user) => ({ user }),
+    receiveEvents: (state, events) => ({ events })
   },
   effects: {
     login: (state, data, send, done) => {
@@ -50,6 +54,14 @@ module.exports = {
         if (err) return done(new Error('Failed to fetch user profile'))
         send('receiveUser', result, done)
       })
+    },
+    fetchEvents: (state, data, send, done) => {
+      const username = state.user.login
+      const url = `https://api.github.com/users/${username}/received_events`
+      xhr(url, { json: true }, (err, res, body) => {
+        if (err || res.statusCode !== 200) return done(new Error('Failed to fetch events'))
+        send('receiveEvents', body, done)
+      })
     }
   },
   subscriptions: {
@@ -57,12 +69,22 @@ module.exports = {
       const authCodeMatch = window.location.href.match(/\?code=([a-z0-9]*)/)
       if (authCodeMatch) {
         const authCode = authCodeMatch[1]
-        send('fetchToken', authCode, done)
+        series([
+          (cb) => send('fetchToken', authCode, cb),
+          (cb) => send('fetchUser', cb),
+          (cb) => send('fetchEvents', cb)
+        ], done)
       }
     },
     checkCookie: (send, done) => {
       const token = Cookies.get('token')
-      if (token) send('receiveToken', token, done)
+      if (token) {
+        series([
+          (cb) => send('receiveToken', token, cb),
+          (cb) => send('fetchUser', cb),
+          (cb) => send('fetchEvents', cb)
+        ], done)
+      }
     }
   }
 }

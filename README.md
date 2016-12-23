@@ -1,15 +1,13 @@
-# Serverless Data
-Edit data files in GitHub with a GUI
-
-**Work in progress**
+# GitHub Feed
+Mobile-friendly GitHub activity feed. Check who starred what while on the go.
 
 ## Usage
-Clone the repository and install dependencies via
+Install dependencies via:
 ```bash
 npm install
 ```
 
-Run a development server via
+Run a development server via:
 ```bash
 npm start
 ```
