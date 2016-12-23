@@ -8,7 +8,7 @@ const GitHub = require('github-api')
 const config = {
   GITHUB_AUTH_URL: 'https://github.com/login/oauth/authorize',
   GITHUB_CLIENT: '1d8f959ece6eb757b542',
-  GATEKEEPER_HOST: 'https://github-feed-gatekeeper.herokuapp.com/'
+  GATEKEEPER_HOST: 'https://github-feed-gatekeeper.herokuapp.com'
 }
 
 module.exports = {
