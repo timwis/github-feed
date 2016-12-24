@@ -40,16 +40,19 @@ module.exports = (state, prev, send) => {
 }
 
 function Event (evt) {
-  const time = evt.created_at
+  const gh = 'https://github.com'
+  const timeago = new Timeago().format(evt.created_at)
   switch (evt.type) {
     case 'WatchEvent': { // user starred a repo
-      const subject = { link: evt.actor.url, label: evt.actor.login }
-      const verb = evt.payload.action
-      const object = { link: evt.repo.url, label: evt.repo.name }
-      return SimpleSentence(subject, verb, object, time)
+      return html`
+        <li>
+          <a href="${gh}/${evt.actor.login}">${evt.actor.login}</a>
+          ${evt.payload.action}
+          <a href="${gh}/${evt.repo.name}">${evt.repo.name}</a>
+          <abbr title=${evt.created_at} class="time">${timeago}</abbr>
+        </li>
+      `
     } case 'CreateEvent': {
-      const subject = { link: evt.actor.url, label: evt.actor.login }
-
       const refType = evt.payload.ref_type
       let verb
       if (refType === 'branch' || refType === 'tag') {
@@ -58,21 +61,14 @@ function Event (evt) {
         verb = 'created repository'
       }
 
-      const object = { link: evt.repo.url, label: evt.repo.name }
-      return SimpleSentence(subject, verb, object, time)
+      return html`
+        <li>
+          <a href="${gh}/${evt.actor.login}">${evt.actor.login}</a>
+          ${verb}
+          <a href="${gh}/${evt.repo.name}">${evt.repo.name}</a>
+          <abbr title=${evt.created_at} class="time">${timeago}</abbr>
+        </li>
+      `
     }
   }
-}
-
-function SimpleSentence (subject, verb, object, time) {
-  const timeago = new Timeago()
-
-  return html`
-    <li>
-      <a href=${subject.link}>${subject.label}</a>
-      ${verb}
-      <a href=${object.link}>${object.label}</a>
-      <abbr title=${time} class="time">${timeago.format(time)}</abbr>
-    </li>
-  `
 }
