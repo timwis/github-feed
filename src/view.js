@@ -1,8 +1,8 @@
 const html = require('choo/html')
 const css = require('sheetify')
-const Timeago = require('timeago.js')
 
 const Nav = require('./components/nav')
+const Events = require('./components/events')
 
 css('bulma/css/bulma.css')
 
@@ -28,8 +28,11 @@ module.exports = (state, prev, send) => {
       <section class="section">
         <div class="container">
           <ul>
-            ${state.events.map(Event)}
+            ${state.events.map(EventIfExists)}
           </ul>
+          <a href="#" class="button is-primary" onclick=${onClickNext}>
+            Next page
+          </a>
         </div>
       </section>
     </main>
@@ -37,38 +40,17 @@ module.exports = (state, prev, send) => {
   function loginCb () {
     send('login')
   }
+  function onClickNext (evt) {
+    send('fetchEvents', { page: state.page + 1 })
+    evt.preventDefault()
+    evt.stopPropagation()
+  }
 }
 
-function Event (evt) {
-  const gh = 'https://github.com'
-  const timeago = new Timeago().format(evt.created_at)
-  switch (evt.type) {
-    case 'WatchEvent': { // user starred a repo
-      return html`
-        <li>
-          <a href="${gh}/${evt.actor.login}">${evt.actor.login}</a>
-          ${evt.payload.action}
-          <a href="${gh}/${evt.repo.name}">${evt.repo.name}</a>
-          <abbr title=${evt.created_at} class="time">${timeago}</abbr>
-        </li>
-      `
-    } case 'CreateEvent': {
-      const refType = evt.payload.ref_type
-      let verb
-      if (refType === 'branch' || refType === 'tag') {
-        verb = html`<span>created ${evt.payload.ref_type} <code>${evt.payload.ref}</code> at</span>`
-      } else if (refType === 'repository') {
-        verb = 'created repository'
-      }
-
-      return html`
-        <li>
-          <a href="${gh}/${evt.actor.login}">${evt.actor.login}</a>
-          ${verb}
-          <a href="${gh}/${evt.repo.name}">${evt.repo.name}</a>
-          <abbr title=${evt.created_at} class="time">${timeago}</abbr>
-        </li>
-      `
-    }
+function EventIfExists (evt) {
+  if (Events[evt.type]) {
+    return Events[evt.type](evt)
+  } else {
+    return ''
   }
 }

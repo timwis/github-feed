@@ -6,7 +6,7 @@
   "author": "timwis <tim@timwis.com>",
   "license": "MIT",
   "scripts": {
-    "start": "bankai start",
+    "start": "budo . --live -- -t sheetify/transform",
     "build": "bankai build",
     "deploy": "npm run build && surge dist -d github-feed.surge.sh"
   },
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "bankai": "^5.1.3",
+    "budo": "^9.3.0",
     "choo-log": "^3.0.0",
     "surge": "^0.18.0"
   }

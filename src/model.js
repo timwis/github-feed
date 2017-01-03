@@ -15,12 +15,18 @@ module.exports = {
   state: {
     token: '',
     user: {},
-    events: []
+    events: [],
+    page: 1
   },
   reducers: {
     receiveToken: (state, token) => ({ token }),
     receiveUser: (state, user) => ({ user }),
-    receiveEvents: (state, events) => ({ events })
+    receiveEvents: (state, data) => {
+      return {
+        page: data.page,
+        events: [...state.events, ...data.events]
+      }
+    }
   },
   effects: {
     login: (state, data, send, done) => {
@@ -56,11 +62,12 @@ module.exports = {
       })
     },
     fetchEvents: (state, data, send, done) => {
+      const page = data && data.page ? data.page : 1
       const username = state.user.login
-      const url = `https://api.github.com/users/${username}/received_events`
+      const url = `https://api.github.com/users/${username}/received_events?page=${page}`
       xhr(url, { json: true }, (err, res, body) => {
         if (err || res.statusCode !== 200) return done(new Error('Failed to fetch events'))
-        send('receiveEvents', body, done)
+        send('receiveEvents', { page, events: body }, done)
       })
     }
   },
