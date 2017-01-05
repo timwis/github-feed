@@ -5,7 +5,7 @@ exports.WatchEvent = (evt) => {
   return html`
     <li>
       ${GitHubLink(evt.actor.login)}
-      ${evt.payload.action}
+      starred
       ${GitHubLink(evt.repo.name)}
       ${TimeagoAbbr(evt.created_at)}
     </li>
