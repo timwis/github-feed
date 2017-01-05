@@ -78,8 +78,7 @@ module.exports = {
         const authCode = authCodeMatch[1]
         series([
           (cb) => send('fetchToken', authCode, cb),
-          (cb) => send('fetchUser', cb),
-          (cb) => send('fetchEvents', cb)
+          (cb) => send('fetchUser', cb)
         ], done)
       }
     },
@@ -88,8 +87,7 @@ module.exports = {
       if (token) {
         series([
           (cb) => send('receiveToken', token, cb),
-          (cb) => send('fetchUser', cb),
-          (cb) => send('fetchEvents', cb)
+          (cb) => send('fetchUser', cb)
         ], done)
       }
     }

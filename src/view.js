@@ -3,6 +3,7 @@ const css = require('sheetify')
 
 const Nav = require('./components/nav')
 const Events = require('./components/events')
+const Intro = require('./components/intro')
 
 css('bulma/css/bulma.css')
 
@@ -26,19 +27,25 @@ module.exports = (state, prev, send) => {
     <main class=${prefix}>
       ${Nav(state.user, loginCb)}
       <section class="section">
-        <div class="container">
-          <ul>
-            ${state.events.map(EventIfExists)}
-          </ul>
-          <a href="#" class="button is-primary" onclick=${onClickNext}>
-            Next page
-          </a>
-        </div>
+        ${state.user.login
+          ? html`
+            <div class="container">
+              <ul onload=${onLoadEvents}>
+                ${state.events.map(EventIfExists)}
+              </ul>
+              <a href="#" class="button is-primary" onclick=${onClickNext}>
+                Next page
+              </a>
+            </div>
+          ` : Intro()}
       </section>
     </main>
   `
   function loginCb () {
     send('login')
+  }
+  function onLoadEvents () {
+    send('fetchEvents')
   }
   function onClickNext (evt) {
     send('fetchEvents', { page: state.page + 1 })
