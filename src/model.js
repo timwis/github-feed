@@ -65,7 +65,11 @@ module.exports = {
       const page = data && data.page ? data.page : 1
       const username = state.user.login
       const url = `https://api.github.com/users/${username}/received_events?page=${page}`
-      xhr(url, { json: true }, (err, res, body) => {
+      const opts = {
+        json: true,
+        headers: { Authorization: `token ${state.token}` }
+      }
+      xhr(url, opts, (err, res, body) => {
         if (err || res.statusCode !== 200) return done(new Error('Failed to fetch events'))
         send('receiveEvents', { page, events: body }, done)
       })
